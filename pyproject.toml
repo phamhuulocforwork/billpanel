@@ -1,0 +1,113 @@
+[project]
+name = "billpanel"
+version = "0.1.0"
+description = "😺 Elegant and extensible status bar (forked from mewline)"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [
+  {name = "dimflix", email = "dimflix.official@gmail.com"},
+]
+dependencies = [
+    "dbus-python>=1.4.0",
+    "emoji>=2.14.1",
+    "fabric",
+    "loguru>=0.7.3",
+    "pillow>=11.2.1",
+    "pkgconfig>=1.5.5",
+    "psutil>=7.0.0",
+    "pydantic>=2.11.5",
+    "pytesseract>=0.3.13",
+    "setproctitle>=1.3.6",
+    "systemd==0.17.1",
+    "keyring>=25.0.0",
+]
+
+[dependency-groups]
+dev = [
+    "detect-secrets>=1.5.0",
+    "pre-commit>=4.1.0",
+    "pytest>=8.4.1",
+    "ruff>=0.9.4",
+    "vulture>=2.14",
+]
+stubs = [
+    "pygobject-stubs>=2.12.0",
+]
+
+[tool.uv]
+package=true
+
+[tool.uv.sources]
+fabric = { git = "https://github.com/Fabric-Development/fabric.git" }
+
+[project.urls]
+Homepage = "https://github.com/phamhuulocforwork/billpanel"
+Documentation = "https://github.com/phamhuulocforwork/billpanel/wiki"
+Repository = "https://github.com/phamhuulocforwork/billpanel.git"
+"Bug Tracker" = "https://github.com/phamhuulocforwork/billpanel/issues"
+Changelog = "https://github.com/phamhuulocforwork/billpanel/blob/master/CHANGELOG.md"
+
+[project.scripts]
+billpanel = "billpanel.__main__:main"
+generate_default_config = "billpanel.__main__:generate_default_config"
+create_keybindings = "billpanel.__main__:create_keybindings"
+
+[tool.ruff]
+src = ["src"]
+target-version = "py311"
+line-length = 88
+indent-width = 4
+fix = true
+
+[tool.ruff.lint]
+select = [
+  "F",  # Pyflakes
+  "E",  # pycodestyle
+  "W",  # pycodestyle
+  "I",  # isort
+  "D",  # pydocstyle
+  "UP",  # pyupgrade
+  "S",  # flake8-bandit
+  "B",  # flake8-bugbear
+  "C4",  # flake8-comprehensions
+  "SIM",  # flake8-simplify
+  "TID",  # flake8-tidy-imports
+  "RUF",  # Ruff-specific rules
+]
+ignore = [
+  # Line length regulated by ruff formatter
+  "E501",
+  # Docstrings not required
+  "D1",
+  "S607",
+  "S603",
+  "RUF003",
+  "RUF002",
+  "S112"
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+
+[tool.ruff.lint.pycodestyle]
+max-doc-length = 88
+
+[tool.ruff.lint.isort]
+force-single-line = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.vulture]
+ignore_decorators = ["@Signal", "@Property"]
+paths = ["src/billpanel", "whitelist-vulture"]
+sort_by_size = true
+ignore_names = [
+  "open_widget_from_di",
+  "overlays",
+  "start_children",
+  "end_children"
+]

@@ -1,0 +1,110 @@
+@use "sass:color";
+
+@use "mixins.scss";
+@use "../theme.scss";
+@use "../variable.scss";
+
+label {
+  font-size: 1rem;
+  color: theme.$text-color;
+}
+
+#panel {
+  background-color: #00000000;
+
+  &-inner {
+    padding: 0.3em 0.7em 0.35em 0.7em;
+    border-color: theme.$background-highlight
+  }
+}
+
+.panel-box,
+.panel-button {
+  border-radius: variable.$radius-large;
+  background-color: theme.$background-base;
+}
+
+.panel-box {
+  padding: 0.1em 1em;
+  color: theme.$text-color;
+  font-weight: 700;
+}
+
+.panel-button {
+  padding: 0.1em 1em;
+
+  label {
+    color: theme.$text-color;
+  }
+
+  &:hover {
+    @extend %widget_hover;
+  }
+}
+
+.panel-text {
+  font-weight: 700;
+  margin-left: 10px;
+}
+
+.panel-text-icon {
+  color: theme.$text-color;
+
+  &.vpn-connected {
+    color: theme.$accent-success;
+  }
+
+  &.vpn-connecting {
+    color: theme.$accent-warning;
+  }
+
+  &.vpn-disconnected {
+    color: theme.$text-muted;
+  }
+
+  &.vpn-error {
+    color: theme.$accent-error;
+  }
+}
+
+tooltip {
+  @extend %unset;
+  background-color: theme.$background-base;
+  border-radius: variable.$radius;
+  box-shadow: 0 0 3px 0 theme.$shadow-color;
+  animation: tooltipShow 0.25s cubic-bezier(0.5, 0.25, 0, 1);
+
+  label {
+    @extend %unset;
+    color: theme.$text-color;
+    font-weight: normal;
+  }
+}
+
+tooltip > * {
+  padding: 0.125em 0.25em;
+}
+
+@keyframes tooltipShow {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+scrollbar {
+  background-color: theme.$background-highlight;
+  border-radius: variable.$radius;
+  margin-left: 8px;
+  min-width: 0.3em;
+
+  slider {
+    border-radius: variable.$radius;
+    min-width: 0.3em;
+    min-height: 3px;
+    background-color: theme.$accent-color;
+  }
+}

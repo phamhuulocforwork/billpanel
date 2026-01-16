@@ -1,0 +1,12 @@
+@use "sass:color";
+@use "theme.scss";
+
+#corner {
+    background-color: theme.$corners-color;
+    border-radius: 0;
+}
+
+#corner-container {
+    min-width: 20px;
+    min-height: 20px;
+}

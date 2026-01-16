@@ -1,0 +1,118 @@
+@use "sass:color";
+@use "../theme.scss";
+
+#network {
+  background: theme.$background-base;
+
+  .title {
+    color: theme.$text-color;
+    font-weight: bold;
+  }
+
+  #controls {
+    padding-bottom: 8px;
+  }
+
+  // Text color for all glyph icons inside the Network menu
+  // This targets labels created via text_icon (name: #nerd-icon)
+  #nerd-icon {
+    color: theme.$text-color;
+  }
+
+  &-refresh-btn,
+  &-view-toggle-btn {
+    border-radius: 16px;
+    padding: 8px 16px;
+    min-width: 15px;
+    background-color: theme.$background-highlight;
+    color: theme.$text-color;
+
+    label {
+      font-weight: bold;
+    }
+  }
+
+  &-toggle-btn {
+    border-radius: 16px;
+    padding: 8px 16px;
+    min-width: 96px;
+
+    label {
+      font-weight: bold;
+      color: theme.$text-on-accent;
+    }
+
+    &.enabled {
+      color: theme.$text-on-accent;
+      background-color: theme.$accent-success;
+    }
+    &.disabled {
+      color: theme.$text-on-accent;
+      background-color: theme.$accent-error;
+    }
+  }
+}
+
+// Слот сети Wi-Fi
+#network-slot {
+  background-color: theme.$background-highlight;
+  border-radius: 16px;
+  padding: 8px 16px;
+  margin-bottom: 4px;
+
+  &.connected {
+    border-left: 3px solid theme.$accent-color;
+  }
+
+  // Кнопка "Забыть"
+  #network-forget-btn {
+    background-color: theme.$background-element;
+    color: theme.$text-color;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 4px 12px;
+
+    &:hover {
+      color: theme.$text-color;
+    }
+  }
+
+  // кнопка подключиться / отключиться
+  #network-connection-toggle-btn {
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 4px 8px;
+
+    &.connect {
+      background-color: theme.$background-element;
+      color: theme.$text-color;
+
+      &:hover {
+        color: theme.$text-color;
+      }
+    }
+    &.disconnect {
+      background-color: theme.$background-element;
+      color: theme.$text-color;
+
+      &:hover {
+        color: theme.$text-color;
+      }
+    }
+  }
+
+  // Поле ввода пароля
+  #wifi-password-entry {
+    padding: 4px 8px;
+    border-radius: 10px;
+    background-color: theme.$background-element;
+  }
+
+  // Кнопка подтверждения
+  #wifi-confirm-btn {
+    background-color: theme.$background-element;
+    font-size: 20px;
+    border-radius: 10px;
+    padding: 4px 8px;
+  }
+}

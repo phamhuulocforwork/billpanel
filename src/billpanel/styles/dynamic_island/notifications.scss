@@ -1,0 +1,106 @@
+@use "sass:color";
+@use "../theme.scss";
+@use "../variable.scss";
+@use "../common/mixins.scss";
+
+
+#notification-action-buttons {
+  button {
+    background-color: theme.$accent-color;
+    color: theme.$text-on-accent;
+    padding: 8px;
+
+    &:hover,
+    &:active {
+      background-color: theme.$accent-color;
+    }
+
+    label {
+      color: theme.$text-on-accent;
+      font-weight: bold;
+    }
+
+    &.action {
+      border-radius: variable.$radius;
+    }
+  }
+}
+
+#notify-close-button {
+  border-radius: variable.$radius-large;
+  padding: 3px;
+
+  .close-icon {
+    @extend %clear_icon;
+    color: theme.$text-color;
+  }
+
+  &:hover {
+    box-shadow: none;
+    border: none;
+    background-color: theme.$accent-color;
+    transition: background 0.15s ease-in-out;
+
+    .close-icon {
+      @extend %clear_icon;
+      color: theme.$text-on-accent;
+    }
+  }
+}
+
+#notification-urgency-line {
+  background-color: transparent;
+  border-radius: 2px;
+  min-height: 4px;
+  margin: 6px 2rem 0 2rem; // отступ сверху от контента/точек, без нижнего отступа
+  opacity: 0; // Default: hidden
+
+  &.low-urgency {
+    background: transparent;
+    opacity: 0; // Low urgency: hidden
+  }
+
+  &.normal-urgency {
+    background: transparent;
+    opacity: 0; // Normal urgency: hidden
+  }
+
+  &.critical-urgency {
+    background: theme.$accent-warning;
+    opacity: 1; // Critical urgency: visible with warning color
+  }
+}
+
+#close-label {
+  color: theme.$text-color;
+}
+
+
+#notification-image {
+  image {
+    border-radius: 16px;
+  }
+}
+
+#notification-title,
+#button-label {
+  font-weight: bold;
+}
+
+#notification-title {
+  font-weight: bold;
+  color: theme.$text-color;
+}
+
+#notification-app-name {
+  color: theme.$text-color;
+}
+
+#notification-text {
+  color: theme.$text-color;
+}
+
+#notification-box {
+  min-width: 400px;
+  min-height: 70px;
+}

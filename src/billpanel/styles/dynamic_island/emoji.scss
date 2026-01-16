@@ -1,0 +1,85 @@
+@use "sass:color";
+@use "../theme.scss";
+
+
+@keyframes loadEmojiSlot {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes highlightEmojiSlot {
+  0% {
+    padding: 16px;
+    text-shadow: 0 4px 4px theme.$shadow-color;
+  }
+  50% {
+    padding: 8px 16px 24px 16px;
+    text-shadow: 0 12px 4px theme.$shadow-color;
+  }
+  100% {
+    padding: 16px;
+    text-shadow: 0 4px 4px theme.$shadow-color;
+  }
+}
+
+#emoji {
+  #search-entry {
+    font-weight: bold;
+    background-color: theme.$background-highlight;
+    color: theme.$text-color;
+    border-radius: 15px;
+    padding: 10px;
+
+    selection {
+        color: theme.$background-highlight;
+        background-color: theme.$accent-color;
+    }
+  }
+
+  #close-button {
+    background-color: theme.$background-highlight;
+    border-radius: 15px;
+    padding: 10px 13px;
+
+    &:hover,
+    &:focus {
+        background-color: theme.$accent-error;
+    }
+
+    &:active {
+        background-color: theme.$accent-error;
+    }
+  }
+
+  #emoji-slot-button {
+    border-radius: 16px;
+    padding: 16px;
+    transition: padding 0.1s ease;
+
+    &:hover,
+    &:focus,
+    &:selected,
+    &.selected {
+      background-color: theme.$accent-color;
+      text-shadow: 0 0 4px theme.$shadow-color;
+      animation: highlightEmojiSlot 0.25s cubic-bezier(0, 0, 0.5, 1);
+    }
+
+    &:active {
+      background-color: theme.$accent-color;
+    }
+  }
+
+  #emoji-name-label {
+    color: theme.$text-on-accent;
+    font-weight: bold;
+  }
+
+  #emoji-char-label {
+    font-size: 24px;
+  }
+}

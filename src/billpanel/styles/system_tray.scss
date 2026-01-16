@@ -1,0 +1,62 @@
+@use "theme.scss";
+@use "variable.scss";
+@use "common/functions.scss";
+
+#system-tray {
+  padding: 0.125em 0.7em;
+  color: theme.$text-color;
+
+  // Recolor tray icons (symbolic via CSS, raster are tinted in code)
+  image,
+  .tray-icon {
+    color: theme.$text-color;
+  }
+
+  & > button {
+    margin: 0 0.1em;
+    padding: 0 0.15em;
+    border-radius: variable.$radius-large;
+    &:hover {
+      background-color: theme.$background-highlight;
+    }
+
+    &:active {
+      background-color: theme.$text-color;
+    }
+  }
+}
+
+#system-tray-menu > menuitem menu,
+#system-tray-menu {
+  background-color: theme.$background-highlight;
+  border-radius: 1em;
+  padding: functions.toEm(10);
+  min-width: 100px;
+  font-weight: bold;
+}
+
+#system-tray-menu > menuitem menu > menuitem,
+#system-tray-menu > menuitem {
+  margin: 5px 0px;
+  background-color: theme.$background-highlight;
+  padding: 0.3em 0.5em;
+  border-radius: variable.$radius;
+}
+
+#system-tray-menu > menuitem menu > menuitem:disabled,
+#system-tray-menu > menuitem:disabled {
+  background-color: transparent;
+  color: theme.$text-muted;
+}
+
+#system-tray-menu > menuitem menu > menuitem:hover,
+#system-tray-menu > menuitem:hover,
+#submenu-button:hover {
+  background-color: theme.$background-highlight;
+  color: theme.$accent-color;
+}
+
+// Ensure symbolic icons inside tray menus also get the accent color
+#system-tray-menu image {
+  color: theme.$text-color;
+}

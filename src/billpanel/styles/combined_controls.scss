@@ -1,0 +1,81 @@
+@use "theme.scss";
+@use "variable.scss";
+
+#combined-controls.panel-button,
+#combined-controls.panel-box,
+#combined-controls {
+  border-radius: variable.$radius-large;
+  padding: 0.1em 0.7em;
+}
+
+#combined-controls {
+  & .label#nerd-icon {
+    color: theme.$text-color;
+  }
+}
+
+.cc-menu {
+  background: theme.$background-base;
+  border-radius: 20px;
+  padding: 1.5rem;
+}
+
+.cc-scale {
+  min-width: 240px;
+}
+
+.cc-menu scale {
+  border-radius: 999px;
+  min-height: 8px;
+}
+.cc-menu scale trough {
+  background-color: theme.$background-highlight;
+  border-radius: 999px;
+}
+.cc-menu scale highlight,
+.cc-menu scale fill {
+  background-color: theme.$accent-color;
+  border-radius: 999px;
+}
+.cc-menu scale slider,
+.cc-menu scale knob {
+  background-color: theme.$text-on-accent;
+  border: 2px solid theme.$accent-color;
+  border-radius: 50%;
+  min-width: 14px;
+  min-height: 14px;
+}
+
+.cc-menu #nerd-icon {
+  color: theme.$text-color;
+  opacity: 0.9;
+  margin-left: 6px;
+}
+
+/* Mute button: center icon and improve contrast */
+.cc-mute-btn {
+  /* Gtk CSS does not support display:flex; rely on default button centering */
+  background: theme.$background-highlight;
+  border-radius: 6px;
+  padding: 0; /* ensure tight content box */
+  min-width: 28px;
+  min-height: 28px;
+
+  &:hover {
+    background: rgba(theme.$accent-color, 0.32);
+    border-color: rgba(theme.$accent-color, 0.95);
+  }
+
+  &:active {
+    background: rgba(theme.$accent-color, 0.42);
+  }
+
+  /* Ensure the icon itself is centered and not shifted by global margin */
+  #nerd-icon {
+    color: theme.$text-color;
+    font-size: 16px;
+    opacity: 0.95;
+    margin: 0; /* override .cc-menu #nerd-icon margin-left */
+  }
+}
+

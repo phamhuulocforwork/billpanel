@@ -1,0 +1,76 @@
+@use "sass:color";
+@use "../theme.scss";
+
+#clipboard-history {
+  background-color: theme.$background-base;
+  border-radius: 16px;
+  padding: 12px;
+}
+
+#clipboard-search-entry {
+  font-weight: 500;
+  background-color: theme.$background-highlight;
+  color: theme.$text-color;
+  border-radius: 15px;
+  padding: 10px;
+
+  selection {
+    color: theme.$background-highlight;
+    background-color: theme.$accent-color;
+  }
+}
+
+#clipboard-close-button {
+  background-color: theme.$background-highlight;
+  border-radius: 15px;
+  padding: 10px 13px;
+
+  &:hover,
+  &:focus {
+    background-color: theme.$accent-error;
+  }
+
+  &:active {
+    background-color: theme.$accent-error;
+  }
+}
+
+#clipboard-scrolled-window {
+  border-radius: 16px;
+
+  slider {
+    min-height: 48px;
+  }
+}
+
+#clipboard-item-button {
+  border-radius: 10px;
+  transition: padding 0.25s cubic-bezier(0.5, 0.25, 0, 1);
+  animation: loadSlot 0.5s ease;
+  background-color: theme.$background-highlight;
+  padding: 10px;
+
+  @keyframes loadSlot {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  &:hover,
+  &:focus,
+  &:selected,
+  &.selected,
+  &:active {
+    background-color: theme.$accent-color;
+    padding-left: 24px;
+
+
+    label {
+      font-weight: bold;
+      color: theme.$text-on-accent;
+    }
+  }
+}

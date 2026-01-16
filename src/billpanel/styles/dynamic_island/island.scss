@@ -1,0 +1,308 @@
+@use "sass:color";
+@use "../theme.scss";
+
+@use "./power.scss";
+@use "./notifications.scss";
+@use "./date_notification.scss";
+@use "./bluetooth.scss";
+@use "./app_launcher.scss";
+@use "./wallpapers.scss";
+@use "./emoji.scss";
+@use "./clipboard.scss";
+@use "./network.scss";
+@use "./vpn.scss";
+@use "./pawlette_themes.scss";
+@use "./workspaces_overview.scss";
+
+#dynamic-island-box {
+  margin: 10px;
+  margin-top: 0px;
+  transition: all 250ms cubic-bezier(0.5, 0.25, 0, 1);
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  &.hideshow {
+    opacity: 1;
+    margin-top: 40px;
+  }
+}
+
+#dynamic-island-content {
+  background-color: theme.$background-base;
+  min-height: 40px;
+  min-width: 256px;
+  border-radius: 0 0 20px 20px; // match module-specific radius to avoid visual mismatch
+  /* GTK CSS doesn't support 'overflow'; keeping radius consistent should address clipping */
+  transition: all 250ms cubic-bezier(0.5, 0.25, 0, 1.25);
+
+  &.power-menu {
+    min-height: 80px;
+    min-width: 320px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.notification {
+    padding: 16px;
+    min-height: 80px;
+    min-width: 300px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.bluetooth {
+    padding: 16px;
+    min-height: 300px;
+    min-width: 500px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.network {
+    padding: 16px;
+    min-height: 300px;
+    min-width: 500px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.date-notification {
+    min-height: 300px;
+    min-width: 500px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.wallpapers {
+    padding: 16px;
+    min-height: 420px;
+    min-width: 620px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.emoji {
+    padding: 16px;
+    min-height: 238px;
+    min-width: 574px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.app-launcher {
+    padding: 16px;
+    min-height: 220px;
+    min-width: 480px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.clipboard {
+    padding: 16px;
+    min-height: 300px;
+    min-width: 500px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.workspaces {
+    padding: 12px;
+    min-height: 280px;
+    min-width: 980px; // 5 tiles ~0.1*1920 each
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.pawlette-themes {
+    padding: 16px;
+    min-height: 420px;
+    min-width: 620px;
+    border-radius: 0 0 36px 36px;
+  }
+
+  &.vpn {
+    padding: 16px;
+    min-height: 300px;
+    min-width: 500px;
+    border-radius: 0 0 36px 36px;
+  }
+}
+
+#power-menu,
+#notification,
+#bluetooth,
+#network,
+#vpn,
+#date-notification,
+#wallpapers,
+#emoji,
+#app-launcher,
+#clipboard,
+#pawlette-themes,
+#workspaces-overview {
+  opacity: 1;
+  margin: -800px;
+  transition: all 0.25s cubic-bezier(0.5, 0.25, 0, 1);
+
+  &.open {
+    opacity: 1;
+    margin: 0px;
+  }
+}
+
+#dynamic-island-compact {
+  font-weight: bold;
+  border-radius: 0 0 20px 20px;
+  transition: all 0.1s ease;
+}
+
+#di-compact-main-container {
+  margin: 5px 10px;
+}
+
+#compact-label {
+  font-weight: bold;
+}
+
+#dynamic-island-corner-left {
+  margin-left: -16px;
+}
+
+#dynamic-island-corner-right {
+  margin-right: -16px;
+}
+
+#dynamic-island-center-column {
+  // Vertical stack: main stack + inline notifications
+  // Provide small separation between main content and inline notifications
+  background-color: transparent;
+  > *:not(:last-child) {
+    margin-bottom: 6px;
+  }
+}
+
+#inline-notification-revealer {
+  // Smooth reveal for inline notifications
+  background-color: transparent;
+}
+
+#inline-notification-container {
+  // Visual grouping for inline notifications so they feel part of the island
+  // Render as a rounded box with a slight gap from the island content and edges
+  margin: 6px 12px 0 12px; // small gap and side insets to keep island corners visible
+  padding: 10px 12px 4px 12px; // minimal bottom padding
+  border-radius: 30px; // normalized rounded corners (use 36px if you prefer larger)
+  background-color: theme.$background-highlight;
+  box-shadow: 0 0 3px 0 color.adjust(theme.$shadow-color, $alpha: -0.6);
+  outline: 1px solid theme.$background-element; // subtle border like other widgets
+  min-height: 130px;
+
+  // Space stacked notifications inside the pill
+  > * + * {
+    margin-top: 8px;
+  }
+}
+
+#inline-capsule {
+  // Place nav buttons at left/right centered vertically
+}
+
+#inline-close-button {
+  background-color: transparent;
+  border: none;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: theme.$text-color;
+
+  &:hover {
+    background-color: theme.$accent-color;
+    color: theme.$text-on-accent;
+  }
+}
+
+#inline-capsule-center {
+  // Stack content with dots at bottom
+}
+
+#inline-dots {
+  padding-top: 0;
+  margin-bottom: 12px; // increased gap between dots and action buttons
+}
+
+#inline-dot {
+  padding: 0;
+  border: none;
+  background: transparent;
+  min-width: 8px;   // shrink clickable area a bit
+  min-height: 8px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+
+  \u0026:hover {
+    background-color: color.adjust(theme.$background-element, $alpha: -0.5);
+  }
+}
+
+#inline-dot-shape {
+  /* GTK doesn't support width/height here; use min- to force size */
+  min-width: 2px;
+  min-height: 2px;
+  border-radius: 50%; // fully rounded
+  background-color: theme.$background-element;
+  transition: background-color 0.2s ease;
+}
+
+
+#inline-dot.active > #inline-dot-shape {
+  background-color: theme.$accent-color;
+}
+// Mirror width constraints of the island per widget by applying same min-widths
+#inline-notification-container.power-menu { min-width: 320px; }
+#inline-notification-container.notification { min-width: 300px; }
+#inline-notification-container.bluetooth { min-width: 500px; }
+#inline-notification-container.network { min-width: 500px; }
+#inline-notification-container.date-notification { min-width: 500px; }
+#inline-notification-container.wallpapers { min-width: 620px; }
+#inline-notification-container.emoji { min-width: 574px; }
+#inline-notification-container.app-launcher { min-width: 480px; }
+#inline-notification-container.clipboard { min-width: 500px; }
+#inline-notification-container.vpn { min-width: 500px; }
+#inline-notification-container.pawlette-themes { min-width: 620px; }
+
+#dynamic-island-corner-left,
+#dynamic-island-corner-right {
+  #corner {
+    background-color: theme.$background-base;
+  }
+}
+
+#di-notification-carousel .nav-left {
+  margin-right: 8px;
+}
+#di-notification-carousel .nav-right {
+  margin-left: 8px;
+}
+
+#inline-nav-button {
+  background-color: transparent;
+  border: none;
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: theme.$text-color;
+
+  &:hover {
+    background-color: theme.$accent-color;
+    color: theme.$text-on-accent; // symbolic icons inherit this color
+  }
+}
+
+#inline-close-button {
+  background-color: transparent;
+  border: none;
+  min-width: 26px;
+  min-height: 26px;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  color: theme.$text-color;
+
+  &:hover {
+    background-color: theme.$accent-color;
+    color: theme.$text-on-accent;
+  }
+}

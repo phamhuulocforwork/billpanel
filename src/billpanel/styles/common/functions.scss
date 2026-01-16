@@ -1,0 +1,6 @@
+@use "sass:math";
+
+@function toEm($value, $base: 16) {
+  $emValue: calc($value / $base) + em;
+  @return $emValue;
+}

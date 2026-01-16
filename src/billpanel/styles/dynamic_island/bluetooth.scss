@@ -1,0 +1,80 @@
+@use "sass:color";
+@use "../theme.scss";
+
+
+#bluetooth {
+    &-controls {
+      padding-bottom: 8px;
+    }
+
+    // Use text color for all icons inside the Bluetooth menu
+    // Textual icons (Label name: #nerd-icon)
+    #nerd-icon {
+      color: theme.$text-color;
+    }
+    // Symbolic GTK icons (device images)
+    image {
+      color: theme.$text-color;
+    }
+
+    &-device {
+      background-color: theme.$background-highlight;
+      border-radius: 16px;
+      padding: 4px;
+      margin-bottom: 4px;
+    }
+
+    &-scan,
+    &-toggle {
+      background-color: theme.$background-highlight;
+      color: theme.$text-color;
+      border-radius: 16px;
+      padding: 8px 16px;
+      min-width: 96px;
+
+      label {
+        font-weight: bold;
+      }
+
+      &:hover {
+        background-color: color.scale(theme.$background-element, $lightness: 10%);
+        border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      }
+    }
+
+    &-text {
+      font-weight: bold;
+      color: theme.$text-color;
+    }
+
+    &-connection {
+      font-size: 20px;
+    }
+
+    &-connect {
+      background-color: theme.$background-element;
+      color: theme.$text-color;
+      border-radius: 16px;
+      padding: 8px 16px;
+
+      &:hover {
+        background-color: color.scale(theme.$background-element, $lightness: 10%);
+        border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      }
+    }
+
+    &-toggle {
+      &.enabled {
+        color: theme.$text-on-accent;
+        background-color: theme.$accent-success;
+      }
+      &.disabled {
+        color: theme.$text-on-accent;
+        background-color: theme.$accent-error;
+      }
+
+      label {
+        color: theme.$text-on-accent;
+      }
+    }
+  }

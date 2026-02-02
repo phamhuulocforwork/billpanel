@@ -189,6 +189,15 @@ class Compact(BaseDiWidget, CenterBox):
                 self.window_icon_slot.add(text_icon("󰣆", size="14px"))
                 return
 
+            merged_titles = self.config.window_titles.title_map + WINDOW_TITLE_MAP
+            matched = next(
+                (wt for wt in merged_titles if re.search(wt[0], app_id.lower())), None
+            )
+
+            if matched:
+                self.window_icon_slot.add(text_icon(matched[1], size="14px"))
+                return
+
             pixbuf, _source, _name = get_icon_pixbuf_for_app(app_id, 16)
             if pixbuf:
                 self.window_icon_slot.add(Image(pixbuf=pixbuf))

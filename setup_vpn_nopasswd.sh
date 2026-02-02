@@ -1,10 +1,10 @@
 #!/bin/bash
 # Setup VPN commands to run without sudo password
-# This script configures sudoers to allow mewline VPN operations
+# This script configures sudoers to allow billpanel VPN operations
 
 set -e
 
-echo "🔧 Setting up VPN sudo permissions for mewline..."
+echo "🔧 Setting up VPN sudo permissions for billpanel..."
 
 # Get current username
 USERNAME="$USER"
@@ -26,8 +26,8 @@ fi
 echo "👤 Configuring for user: $USERNAME"
 echo "🏠 Home directory: $HOME_DIR"
 
-# Create sudoers file for mewline
-SUDOERS_FILE="/etc/sudoers.d/mewline-vpn"
+# Create sudoers file for billpanel
+SUDOERS_FILE="/etc/sudoers.d/billpanel-vpn"
 
 echo "📝 Creating sudoers configuration: $SUDOERS_FILE"
 
@@ -35,7 +35,7 @@ echo "📝 Creating sudoers configuration: $SUDOERS_FILE"
 TEMP_FILE=$(mktemp)
 
 cat > "$TEMP_FILE" << EOF
-# Mewline VPN - Allow VPN operations without password
+# Billpanel VPN - Allow VPN operations without password
 # Generated on $(date)
 # User: $USERNAME
 
@@ -49,9 +49,9 @@ $USERNAME ALL=(ALL) NOPASSWD: /usr/bin/wg-quick
 $USERNAME ALL=(ALL) NOPASSWD: /usr/bin/wg
 
 # Log file reading (for debugging)
-$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/cat $HOME_DIR/.config/mewline/vpn/*
-$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/grep * $HOME_DIR/.config/mewline/vpn/*
-$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/tail * $HOME_DIR/.config/mewline/vpn/*
+$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/cat $HOME_DIR/.config/billpanel/vpn/*
+$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/grep * $HOME_DIR/.config/billpanel/vpn/*
+$USERNAME ALL=(ALL) NOPASSWD: /usr/bin/tail * $HOME_DIR/.config/billpanel/vpn/*
 
 # DNS management (if needed)
 $USERNAME ALL=(ALL) NOPASSWD: /usr/bin/resolvectl
@@ -122,7 +122,7 @@ echo ""
 echo "⚠️  Security notes:"
 echo "   - Only applies to user: $USERNAME"
 echo "   - Only affects VPN-related commands"
-echo "   - Log files are restricted to mewline's config directory"
+echo "   - Log files are restricted to billpanel's config directory"
 echo ""
 echo "🔄 If commands still ask for password, try:"
 echo "   - Log out and log back in"

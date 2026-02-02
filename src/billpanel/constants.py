@@ -110,7 +110,7 @@ DEFAULT_CONFIG = {
         },
         "system_tray": {"icon_size": 16, "ignore": []},
         "power": {"icon": "", "icon_size": "16px", "tooltip": True},
-        "datetime": {"format": "%d-%m-%y %H:%M"},
+        "datetime": {"format": "%d-%m-%Y %H:%M"},
         "battery": {
             "show_label": False,
             "tooltip": True,
@@ -239,9 +239,12 @@ WINDOW_TITLE_MAP = [
     ["tilix", "", "Tilix"],
     ["xterm", "", "XTerm"],
     ["urxvt", "", "URxvt"],
-    ["st", "", "st Terminal"],
+    ["^st$|^st-", "", "st Terminal"],
     ["com.mitchellh.ghostty", "󰊠", "Ghostty"],
     # Development Tools
+    ["zed", "", "Zed"],
+    ["antigravity", "󰫢", "Antigravity"],
+    ["cursor", "", "Cursor"],
     ["code", "󰨞", "Visual Studio Code"],
     ["vscode", "󰨞", "VS Code"],
     ["sublime-text", "", "Sublime Text"],
@@ -259,11 +262,14 @@ WINDOW_TITLE_MAP = [
     ["neovide", "", "Neovide"],
     ["emacs", "", "Emacs"],
     ["pgadmin4", "", "PgAdmin4"],
+    ["termix", "󰬛", "Termix"],
+    ["navicat", "󰄛", "Navicat"],
     # Communication Tools
+    ["zalo", "󰭹", "Zalo"],
     ["slack", "󰒱", "Slack"],
     ["telegram-desktop", "", "Telegram"],
     ["org.telegram.desktop", "", "Telegram"],
-    ["whatsapp", "󰖣", "WhatsApp"],
+    ["wasistlos", "󰖣", "WhatsApp"],
     ["teams", "󰊻", "Microsoft Teams"],
     ["skype", "󰒯", "Skype"],
     ["thunderbird", "", "Thunderbird"],
@@ -296,6 +302,11 @@ WINDOW_TITLE_MAP = [
     # Office and Productivity
     ["evernote", "", "Evernote"],
     ["sioyek", "", "Sioyek"],
+    ["org.keepassxc.keepassxc", "󰌾", "KeePassXC"],
+    ["parsecd", "󰢹", "Parsec"],
+    ["org.bleachbit.bleachbit", "", "BleachBit"],
+    ["org.gnome.baobab", "󰉖", "Baobab"],
+    ["flameshot", "󰆟", "Flameshot"],
     # Cloud Services and Sync
     ["dropbox", "󰇣", "Dropbox"],
     # Desktop

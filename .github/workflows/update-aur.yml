@@ -46,7 +46,7 @@ jobs:
           sed -i \
             -e "s/^pkgver=.*/pkgver=${{ steps.get_version.outputs.version }}/" \
             -e "s|^source=.*|source=(\"\$url/archive/refs/tags/v\$pkgver.tar.gz\")|" \
-            -e "s/billpanel-v\$pkgver/mewline-\$pkgver/" \
+            -e "s/billpanel-v\$pkgver/billpanel-\$pkgver/" \
             -e "s/^sha256sums=.*/sha256sums=('${{ steps.sha256.outputs.hash }}')/" \
             PKGBUILD.stable
 

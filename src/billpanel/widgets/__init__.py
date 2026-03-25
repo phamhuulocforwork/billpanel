@@ -19,7 +19,10 @@ from billpanel.widgets.workspaces import HyprlandWorkSpacesWidget
 class StatusBar(WaylandWindow):
     """A widget to display the status bar panel."""
 
-    def __init__(self, **kwargs):
+    def __init__(self, monitor=None, **kwargs):
+        if monitor is None:
+            monitor = HyprlandMonitors().get_cursor_gdk_monitor_id()
+
         self.combined_controls = CombinedControlsButton()
 
         box = CenterBox(
@@ -57,7 +60,7 @@ class StatusBar(WaylandWindow):
             layer="top",
             anchor="left top right",
             pass_through=False,
-            monitor=HyprlandMonitors().get_current_gdk_monitor_id(),
+            monitor=monitor,
             exclusivity="auto",
             visible=True,
             all_visible=False,

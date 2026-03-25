@@ -1,4 +1,6 @@
 import datetime
+import html
+import re
 import shutil
 import time
 from functools import lru_cache
@@ -13,9 +15,17 @@ from loguru import logger
 gi.require_version("Gtk", "3.0")
 
 
-# Function to escape the markup
+def strip_html(text: str) -> str:
+    """Remove HTML tags and decode entities. Returns plain text safe for display."""
+    if not text:
+        return ""
+    no_tags = re.sub(r"<[^>]+>", "", text)
+    return html.unescape(no_tags).strip()
+
+
 def parse_markup(text):
-    return text
+    """Strip HTML then return text for use before markup_escape_text."""
+    return strip_html(text) if text else ""
 
 
 # Function to format time in hours and minutes

@@ -1,12 +1,3 @@
-"""VPN Widget for Dynamic Island.
-
-Provides UI for managing VPN connections including:
-- Profile list with connection status
-- Import/upload VPN profiles
-- Credential management
-- DNS and split tunneling settings
-"""
-
 import subprocess
 from pathlib import Path
 from threading import Lock

@@ -86,6 +86,14 @@ DEFAULT_CONFIG = {
         "intercept_notifications": True,
         "osd_enabled": True,
     },
+    "monitors": {
+        "mode": "all",
+        "monitors_list": [],
+    },
+    "notifications_monitors": {
+        "mode": "all",
+        "monitors_list": [],
+    },
     "modules": {
         "osd": {"timeout": 1500, "anchor": "bottom-center"},
         "workspaces": {
@@ -108,7 +116,11 @@ DEFAULT_CONFIG = {
                 "10": "10",
             },
         },
-        "system_tray": {"icon_size": 16, "ignore": []},
+        "system_tray": {
+            "icon_size": 16,
+            "ignore": [],
+            "pinned": ["Telegram"]
+        },
         "power": {"icon": "", "icon_size": "16px", "tooltip": True},
         "datetime": {"format": "%d-%m-%Y %H:%M"},
         "battery": {
@@ -119,7 +131,7 @@ DEFAULT_CONFIG = {
             "icon": "󰴑",
             "icon_size": "20px",
             "tooltip": True,
-            "default_lang": "vie+eng",
+            "default_lang": "rus+eng",
         },
         "dynamic_island": {
             "power_menu": {
@@ -133,6 +145,22 @@ DEFAULT_CONFIG = {
                 "reboot_icon_size": "20px",
                 "shutdown_icon": "",
                 "shutdown_icon_size": "20px",
+                "commands": {
+                    "hyprland": {
+                        "lock": "hyprlock",
+                        "logout": "hyprctl dispatch exit",
+                        "suspend": "systemctl suspend",
+                        "reboot": "systemctl reboot",
+                        "shutdown": "systemctl poweroff",
+                    },
+                    "bspwm": {
+                        "lock": "betterlockscreen --lock dim",
+                        "logout": "bspc quit",
+                        "suspend": "systemctl suspend",
+                        "reboot": "systemctl reboot",
+                        "shutdown": "systemctl poweroff",
+                    },
+                }
             },
             "compact": {
                 "window_titles": {
@@ -146,10 +174,12 @@ DEFAULT_CONFIG = {
                     "truncation": True,
                     "truncation_size": 30,
                     "default_album_logo": "https://sonos-partner-documentation.s3.amazonaws.com/ReadMe-External/content-service-features/add-images/add-album-art/SonosApp-DefaultArt-Alone.png",
+                    "visualizer_enabled": True,
                 },
             },
             "wallpapers": {
-                "method": "swww",
+                "x11_method": "feh",
+                "wayland_method": "swww",
                 "wallpapers_dirs": [*map(str, LIST_WALLPAPERS_PATHS)],
                 "save_current_wall": True,
                 "current_wall_path": str(DEFAULT_CURRENT_WALL_PATH)

@@ -156,6 +156,12 @@
   font-weight: bold;
 }
 
+#di-audio-visualizer {
+  min-width: 36px;
+  min-height: 20px;
+  color: theme.$accent-color;
+}
+
 #dynamic-island-corner-left {
   margin-left: -16px;
 }
@@ -168,7 +174,8 @@
   // Vertical stack: main stack + inline notifications
   // Provide small separation between main content and inline notifications
   background-color: transparent;
-  > *:not(:last-child) {
+
+  >*:not(:last-child) {
     margin-bottom: 6px;
   }
 }
@@ -190,7 +197,7 @@
   min-height: 130px;
 
   // Space stacked notifications inside the pill
-  > * + * {
+  >*+* {
     margin-top: 8px;
   }
 }
@@ -227,7 +234,7 @@
   padding: 0;
   border: none;
   background: transparent;
-  min-width: 8px;   // shrink clickable area a bit
+  min-width: 8px; // shrink clickable area a bit
   min-height: 8px;
   border-radius: 50%;
   transition: background-color 0.2s ease;
@@ -247,21 +254,50 @@
 }
 
 
-#inline-dot.active > #inline-dot-shape {
+#inline-dot.active>#inline-dot-shape {
   background-color: theme.$accent-color;
 }
+
 // Mirror width constraints of the island per widget by applying same min-widths
-#inline-notification-container.power-menu { min-width: 320px; }
-#inline-notification-container.notification { min-width: 300px; }
-#inline-notification-container.bluetooth { min-width: 500px; }
-#inline-notification-container.network { min-width: 500px; }
-#inline-notification-container.date-notification { min-width: 500px; }
-#inline-notification-container.wallpapers { min-width: 620px; }
-#inline-notification-container.emoji { min-width: 574px; }
-#inline-notification-container.app-launcher { min-width: 480px; }
-#inline-notification-container.clipboard { min-width: 500px; }
-#inline-notification-container.vpn { min-width: 500px; }
-#inline-notification-container.pawlette-themes { min-width: 620px; }
+#inline-notification-container.power-menu {
+  min-width: 320px;
+}
+
+#inline-notification-container.notification {
+  min-width: 300px;
+}
+
+#inline-notification-container.bluetooth {
+  min-width: 500px;
+}
+
+#inline-notification-container.network {
+  min-width: 500px;
+}
+
+#inline-notification-container.date-notification {
+  min-width: 500px;
+}
+
+#inline-notification-container.wallpapers {
+  min-width: 620px;
+}
+
+#inline-notification-container.emoji {
+  min-width: 574px;
+}
+
+#inline-notification-container.app-launcher {
+  min-width: 480px;
+}
+
+#inline-notification-container.clipboard {
+  min-width: 500px;
+}
+
+#inline-notification-container.pawlette-themes {
+  min-width: 620px;
+}
 
 #dynamic-island-corner-left,
 #dynamic-island-corner-right {
@@ -273,6 +309,7 @@
 #di-notification-carousel .nav-left {
   margin-right: 8px;
 }
+
 #di-notification-carousel .nav-right {
   margin-left: 8px;
 }

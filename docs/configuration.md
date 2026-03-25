@@ -1,10 +1,10 @@
-# Mewline configuration
+# billpanel configuration
 
-The `mewline` configuration file is located at `~/.config/mewline/config.json`.
+The `billpanel` configuration file is located at `~/.config/billpanel/config.json`.
 If the file is missing, the default configuration will be used.
-You can generate a default configuration file by running `mewline --generate-default-config`.
+You can generate a default configuration file by running `billpanel --generate-default-config`.
 
-Mewline uses a resilient configuration system. If your config contains errors or missing fields, they will be automatically filled or corrected with values from the default configuration to keep the app stable.
+billpanel uses a resilient configuration system. If your config contains errors or missing fields, they will be automatically filled or corrected with values from the default configuration to keep the app stable.
 
 ## Configuration structure
 

@@ -28,15 +28,18 @@
   border-radius: 999px;
   min-height: 8px;
 }
+
 .cc-menu scale trough {
   background-color: theme.$background-highlight;
   border-radius: 999px;
 }
+
 .cc-menu scale highlight,
 .cc-menu scale fill {
   background-color: theme.$accent-color;
   border-radius: 999px;
 }
+
 .cc-menu scale slider,
 .cc-menu scale knob {
   background-color: theme.$text-on-accent;
@@ -57,7 +60,8 @@
   /* Gtk CSS does not support display:flex; rely on default button centering */
   background: theme.$background-highlight;
   border-radius: 6px;
-  padding: 0; /* ensure tight content box */
+  padding: 0;
+  /* ensure tight content box */
   min-width: 28px;
   min-height: 28px;
 
@@ -75,7 +79,24 @@
     color: theme.$text-color;
     font-size: 16px;
     opacity: 0.95;
-    margin: 0; /* override .cc-menu #nerd-icon margin-left */
+    margin: 0;
+    /* override .cc-menu #nerd-icon margin-left */
   }
 }
 
+/* Privacy indicator dots - colours defined in theme variables */
+.privacy-dot-mic {
+  color: theme.$privacy-dot-mic;
+}
+
+.privacy-dot-cam {
+  color: theme.$privacy-dot-cam;
+}
+
+.privacy-dot-screen {
+  color: theme.$privacy-dot-screen;
+}
+
+.privacy-dot-loc {
+  color: theme.$privacy-dot-loc;
+}

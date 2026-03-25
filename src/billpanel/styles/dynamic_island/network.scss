@@ -46,6 +46,7 @@
       color: theme.$text-on-accent;
       background-color: theme.$accent-success;
     }
+
     &.disabled {
       color: theme.$text-on-accent;
       background-color: theme.$accent-error;
@@ -91,6 +92,7 @@
         color: theme.$text-color;
       }
     }
+
     &.disconnect {
       background-color: theme.$background-element;
       color: theme.$text-color;

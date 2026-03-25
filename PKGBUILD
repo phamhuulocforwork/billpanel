@@ -4,7 +4,7 @@ conflicts=('billpanel')
 provides=('billpanel')
 pkgver=r1.0.0
 pkgrel=1
-pkgdesc="🎯 Elegant and extensible status bar (forked from mewline)"
+pkgdesc="🎯 Elegant and extensible status bar (forked from billpanel)"
 arch=('any')
 url="https://github.com/phamhuulocforwork/billpanel"
 license=('MIT')
@@ -54,8 +54,8 @@ exec .venv/bin/python run.py "\$@"
 EOF
 
   # Granting rights to files and folders
-  chmod -R a+rwX "$pkgdir/opt/billpanel/src/mewline/styles"
-  find "$pkgdir/opt/billpanel/src/mewline/styles" -type d -exec chmod 777 {} +
-  find "$pkgdir/opt/billpanel/src/mewline/styles" -type f -exec chmod 666 {} +
-  chmod 755 "$pkgdir/usr/bin/mewline"
+  chmod -R a+rwX "$pkgdir/opt/billpanel/src/billpanel/styles"
+  find "$pkgdir/opt/billpanel/src/billpanel/styles" -type d -exec chmod 777 {} +
+  find "$pkgdir/opt/billpanel/src/billpanel/styles" -type f -exec chmod 666 {} +
+  chmod 755 "$pkgdir/usr/bin/billpanel"
 }

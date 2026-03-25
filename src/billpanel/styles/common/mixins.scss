@@ -30,12 +30,10 @@
   border: variable.$border;
 }
 
-@mixin slider(
-  $radius: variable.$radius,
+@mixin slider($radius: variable.$radius,
   $highlight-color: white,
   $length: 150px,
-  $slider-color: theme.$background-base
-) {
+  $slider-color: theme.$background-base) {
   slider {
     min-height: 8px;
     border-radius: $radius;
@@ -73,7 +71,7 @@
 }
 
 @mixin spacing($multiplier: 1, $spacing: variable.$spacing, $rec: false) {
-  &.horizontal > * {
+  &.horizontal>* {
     margin: 0 calc($spacing * $multiplier / 2);
 
     &:first-child {
@@ -85,7 +83,7 @@
     }
   }
 
-  &.vertical > * {
+  &.vertical>* {
     margin: calc($spacing * $multiplier / 2) 0;
 
     &:first-child {
@@ -99,7 +97,7 @@
 
   @if $rec {
     box {
-      &.horizontal > * {
+      &.horizontal>* {
         margin: 0 $spacing * $multiplier / 2;
 
         &:first-child {
@@ -111,7 +109,7 @@
         }
       }
 
-      &.vertical > * {
+      &.vertical>* {
         margin: $spacing * $multiplier / 2 0;
 
         &:first-child {

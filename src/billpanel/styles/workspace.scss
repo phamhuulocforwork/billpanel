@@ -8,7 +8,7 @@ $workspace-transition: all 0.4s cubic-bezier(0.55, -0.68, 0.48, 1.682);
   padding: 0.19em 1em;
   font-weight: 700;
 
-  & > button {
+  &>button {
     padding: functions.toEm(2) 0.5em;
     transition: padding 0.05s steps(8);
     border-radius: variable.$radius-large;
@@ -30,7 +30,7 @@ $workspace-transition: all 0.4s cubic-bezier(0.55, -0.68, 0.48, 1.682);
       min-width: 1.4rem;
       transition: $workspace-transition;
 
-      & > label {
+      &>label {
         color: theme.$background-base;
       }
     }

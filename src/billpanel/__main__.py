@@ -5,6 +5,7 @@ import sys
 import setproctitle
 from fabric import Application
 from fabric.utils import monitor_file
+from loguru import logger
 
 from billpanel import constants as cnst
 from billpanel.config import cfg
@@ -17,6 +18,9 @@ from billpanel.utils.setup_loguru import setup_loguru
 from billpanel.utils.temporary_fixes import *  # noqa: F403
 from billpanel.utils.theming import copy_theme
 from billpanel.utils.theming import process_and_apply_css
+from billpanel.utils.window_manager import WindowManagerContext
+from billpanel.utils.window_manager import create_monitor_manager
+from billpanel.utils.window_manager import detect_window_manager
 from billpanel.widgets import StatusBar
 from billpanel.widgets.dynamic_island import DynamicIsland
 from billpanel.widgets.osd import OSDContainer
@@ -36,8 +40,6 @@ setup_loguru(
 def _log_system_info():
     """Логируем детальную информацию о системе для отладки."""
     import platform
-
-    from loguru import logger
 
     try:
         logger.info("=== SYSTEM DEBUG INFO ===")
@@ -111,7 +113,7 @@ def main(debug_mode=False):
         signal.signal(signal.SIGABRT, debug_handler)
 
     # Устанавливаем переменные окружения для детальной отладки
-    if debug_mode or os.environ.get("MEWLINE_DEBUG", "").lower() in (
+    if debug_mode or os.environ.get("BILLPANEL_DEBUG", "").lower() in (
         "1",
         "true",
         "yes",
@@ -160,6 +162,12 @@ def main(debug_mode=False):
     # Запускаем захват всего вывода (включая GTK сообщения)
     start_output_capture()
 
+    ##===> Detect and set window manager context
+    ##############################
+    wm = detect_window_manager()
+    WindowManagerContext.set_wm(wm)
+    logger.info(f"Window manager detected and context set to: {wm.value}")
+
     ##===> Creating App
     ##############################
     widgets = []
@@ -170,13 +178,54 @@ def main(debug_mode=False):
 
     if cfg.options.osd_enabled:
         osd_widget = OSDContainer()
-        widgets.append(osd_widget)
+        widgets.append(osd_widget.window)
 
-    status_bar = StatusBar()
-    if osd_widget:
-        status_bar.set_osd_widget(osd_widget)
+    ##=> Multi-monitor: create one StatusBar + one DynamicIsland per output
+    ###########################################################################
+    monitors = create_monitor_manager()
+    monitor_ids = monitors.get_configured_gdk_monitor_ids(cfg)
 
-    widgets.extend((status_bar, DynamicIsland()))
+    if not monitor_ids:
+        # Fallback: let the compositor/WM decide (show on all outputs)
+        logger.warning(
+            "[monitors] Could not resolve any monitor IDs - "
+            "falling back to monitor=None (compositor/WM default)."
+        )
+        monitor_ids = [None]
+
+    logger.info(f"[monitors] mode={cfg.monitors.mode!r}  ids={monitor_ids}")
+
+    ##=> Build (monitor_id -> DynamicIsland) map so the dispatcher can route
+    # open/close actions to the island that lives on the cursor's monitor.
+    ##########################################################################
+    islands: dict[int | None, DynamicIsland] = {}
+    for mid in monitor_ids:
+        bar = StatusBar(monitor=mid)
+        if osd_widget:
+            bar.set_osd_widget(osd_widget)
+        island = DynamicIsland(monitor=mid)
+        widgets.append(bar)
+        widgets.append(island.window)
+        islands[mid] = island
+
+    ##==>
+    # Register application-level DI actions ONCE as a cursor-aware
+    # dispatcher.  Each DynamicIsland no longer registers these actions
+    # itself to avoid "already registered" errors in multi-monitor mode.
+    ##########################################################################
+    def _get_active_island() -> DynamicIsland:
+        """Return the island whose monitor currently holds the pointer."""
+        cursor_mid = monitors.get_cursor_gdk_monitor_id()
+        # Exact match -> fallback to first island if cursor monitor is unknown
+        return islands.get(cursor_mid) or next(iter(islands.values()))
+
+    Application.action("dynamic-island-open")(
+        lambda widget="date-notification": _get_active_island().open(widget)
+    )
+    Application.action("dynamic-island-close")(
+        lambda: _get_active_island().close()
+    )
+
     app = Application(cnst.APPLICATION_NAME, *widgets)
 
     setproctitle.setproctitle(cnst.APPLICATION_NAME)
@@ -219,7 +268,7 @@ def main(debug_mode=False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Mewline: A minimalist status bar for meowrch."
+        description="billpanel: A minimalist status bar for billarch."
     )
     parser.add_argument(
         "--generate-default-config",

@@ -1,7 +1,7 @@
 [project]
 name = "billpanel"
 version = "0.1.0"
-description = "😺 Elegant and extensible status bar (forked from mewline)"
+description = "😺 Elegant and extensible status bar (forked from billpanel)"
 readme = "README.md"
 requires-python = ">=3.11"
 authors = [

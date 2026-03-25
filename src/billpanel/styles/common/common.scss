@@ -49,22 +49,6 @@ label {
 
 .panel-text-icon {
   color: theme.$text-color;
-
-  &.vpn-connected {
-    color: theme.$accent-success;
-  }
-
-  &.vpn-connecting {
-    color: theme.$accent-warning;
-  }
-
-  &.vpn-disconnected {
-    color: theme.$text-muted;
-  }
-
-  &.vpn-error {
-    color: theme.$accent-error;
-  }
 }
 
 tooltip {
@@ -81,7 +65,7 @@ tooltip {
   }
 }
 
-tooltip > * {
+tooltip>* {
   padding: 0.125em 0.25em;
 }
 

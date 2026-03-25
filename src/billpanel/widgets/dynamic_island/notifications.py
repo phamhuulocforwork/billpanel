@@ -20,10 +20,13 @@ from gi.repository import Gtk
 from loguru import logger
 
 from billpanel import constants as cnst
+from billpanel.config import cfg
 from billpanel.services import cache_notification_service
 from billpanel.services import notification_service
 from billpanel.shared.rounded_image import CustomImage
 from billpanel.utils.misc import check_icon_exists
+from billpanel.utils.window_manager import create_monitor_manager
+from billpanel.utils.misc import strip_html
 from billpanel.widgets.dynamic_island.base import BaseDiWidget
 
 if TYPE_CHECKING:
@@ -87,6 +90,12 @@ class ActionButton(Button):
 
 class NotificationBox(Box):
     def __init__(self, notification: Notification, timeout_ms=5000, **kwargs):
+        # FIX: Normalize urgency type (some backends return a list)
+        if isinstance(notification.urgency, list):
+            notification.urgency = (
+                notification.urgency[0] if notification.urgency else 1
+            )
+
         urgency_class = {
             0: ("low-urgency", False),
             1: ("normal-urgency", False),
@@ -206,7 +215,9 @@ class NotificationBox(Box):
                                 Label(
                                     name="notification-title",
                                     markup=GLib.markup_escape_text(
-                                        notification.summary.replace("\n", " ")
+                                        strip_html(notification.summary or "").replace(
+                                            "\n", " "
+                                        )
                                     ),
                                     h_align="start",
                                     ellipsization="end",
@@ -225,7 +236,7 @@ class NotificationBox(Box):
                         Label(
                             name="notification-text",
                             markup=GLib.markup_escape_text(
-                                notification.body.replace("\n", " ")
+                                strip_html(notification.body or "").replace("\n", " ")
                             ),
                             h_align="start",
                             ellipsization="end",
@@ -374,6 +385,7 @@ class NotificationContainer(BaseDiWidget, Box):
             h_expand=True,
         )
         self.dynamic_island = di
+        self.monitors = create_monitor_manager()
         self._boxes_by_id: dict[int, NotificationBox] = {}
         notification_service.connect("notification-added", self.on_new_notification)
 
@@ -789,6 +801,22 @@ class NotificationContainer(BaseDiWidget, Box):
 
     def on_new_notification(self, fabric_notif, id):
         notification: Notification = fabric_notif.get_notification_from_id(id)
+
+        # FIX: Ensure urgency is normalized locally (some backends return list)
+        if isinstance(notification.urgency, list):
+            notification.urgency = (
+                notification.urgency[0] if notification.urgency else 1
+            )
+
+        # Multi-monitor filtering logic
+        allowed_ids = self.monitors.get_notifications_gdk_monitor_ids(cfg)
+        current_monitor = self.dynamic_island.monitor
+        # If current_monitor is None (compositor decided), we usually skip check
+        # unless user config expects specific filtering.
+        # But if user wants specific monitor (list/cursor), we must ensure it matches.
+        if current_monitor is not None and current_monitor not in allowed_ids:
+            return
+
         cache_notification_service.cache_notification(notification)
 
         if cache_notification_service.dont_disturb:

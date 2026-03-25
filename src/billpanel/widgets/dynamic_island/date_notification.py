@@ -21,6 +21,7 @@ from billpanel.services import notification_service
 from billpanel.shared.rounded_image import CustomImage
 from billpanel.utils.misc import check_icon_exists
 from billpanel.utils.misc import parse_markup
+from billpanel.utils.misc import strip_html
 from billpanel.utils.misc import uptime
 from billpanel.utils.widget_utils import get_icon
 from billpanel.utils.widget_utils import setup_cursor_hover
@@ -87,7 +88,7 @@ class NotificationHistoryEl(Box):
 
         self.notification_icon = get_icon(notification.app_icon)
         self.summary_label = Label(
-            markup=GLib.markup_escape_text(notification.summary),
+            markup=GLib.markup_escape_text(strip_html(notification.summary or "")),
             h_align="start",
             h_expand=True,
             ellipsization="end",
@@ -376,7 +377,9 @@ class NotificationGroup(Box):
                         full_header_children.append(get_icon(notif.app_icon))
                     full_header_children.append(
                         Label(
-                            markup=GLib.markup_escape_text(getattr(notif, "summary", "")),
+                            markup=GLib.markup_escape_text(
+                                strip_html(getattr(notif, "summary", "") or "")
+                            ),
                             ellipsization="end",
                             h_align="start",
                             h_expand=True,
@@ -446,7 +449,9 @@ class NotificationGroup(Box):
                         header_children.append(get_icon(notif.app_icon))
                     header_children.append(
                         Label(
-                            markup=GLib.markup_escape_text(getattr(notif, "summary", "")),
+                            markup=GLib.markup_escape_text(
+                                strip_html(getattr(notif, "summary", "") or "")
+                            ),
                             ellipsization="end",
                             h_align="start",
                             h_expand=True,

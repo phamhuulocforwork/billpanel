@@ -1,23 +1,21 @@
-$background-base: #11111b;
-$background-highlight: #181825;
-$background-element: #1e1e2e;
+$background-base: #282c34;
+$background-highlight: #2c313a;
+$background-element: #3e4451;
 
-$accent-color: #b4befe;
-$accent-error: #f38ba8;
-$accent-warning: #fab387;
-$accent-success: #a6e3a1;
+$accent-color: #61afef;
+$accent-error: #e06c75;
+$accent-warning: #d19a66;
+$accent-success: #98c379;
 
-$text-color: #cdd6f4;
-$text-secondary: #585b70;
-$text-muted: #9399b2;
-$text-on-accent: #11111b;
+$text-color: #abb2bf;
+$text-secondary: #828997;
+$text-muted: #5c6370;
+$text-on-accent: #282c34;
 
-$shadow-color: rgba(0, 0, 0, 0.6);
-$corners-color: #000000;
+$shadow-color: rgba(0, 0, 0, 0.5);
+$corners-color: #21252b;
 
-// Privacy indicator dot colours.
-// Override any of these in your theme file to customise the dots.
-$privacy-dot-mic: #f38ba8;
-$privacy-dot-cam: #fab387;
-$privacy-dot-screen: #cba6f7;
-$privacy-dot-loc: #89b4fa;
+$privacy-dot-mic: #e06c75;
+$privacy-dot-cam: #d19a66;
+$privacy-dot-screen: #c678dd;
+$privacy-dot-loc: #56b6c2;

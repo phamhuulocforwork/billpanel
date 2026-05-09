@@ -3,8 +3,10 @@ import fcntl
 import hashlib
 import json
 import os
+import random
 import subprocess
 import threading
+import cairo
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -17,6 +19,8 @@ from gi.repository import GdkPixbuf
 from gi.repository import Gio
 from gi.repository import GLib
 from gi.repository import Gtk
+from gi.repository import Pango
+from gi.repository import PangoCairo
 from loguru import logger
 from PIL import Image
 from PIL import ImageDraw
@@ -137,6 +141,7 @@ class WallpaperSelector(BaseDiWidget, Box):
         self.thumbnail_queue = []
         self.executor = ThreadPoolExecutor(max_workers=4)
         self.selected_index = -1
+        self.random_item_name = "__random_wallpaper__"
 
         # UI Setup остается без изменений
         self.viewport = Gtk.IconView(name="wallpaper-icons")
@@ -350,6 +355,11 @@ class WallpaperSelector(BaseDiWidget, Box):
     def arrange_viewport(self, query: str = ""):
         model = self.viewport.get_model()
         model.clear()
+
+        if not query.strip():
+            random_thumb = self._create_random_thumbnail()
+            model.append([random_thumb, self.random_item_name])
+
         filtered = [
             (thumb, name)
             for thumb, name in self.thumbnails
@@ -363,11 +373,17 @@ class WallpaperSelector(BaseDiWidget, Box):
 
     def on_wallpaper_selected(self, iconview, path):
         file_name = iconview.get_model()[path][1]
-        full_path = next(
-            (fp for fn, fp in self.files_with_paths if fn == file_name), None
-        )
-        if full_path is None:
-            return
+
+        if file_name == self.random_item_name:
+            if not self.files_with_paths:
+                return
+            _file_name, full_path = random.choice(self.files_with_paths)
+        else:
+            full_path = next(
+                (fp for fn, fp in self.files_with_paths if fn == file_name), None
+            )
+            if full_path is None:
+                return
 
         method_not_supported_msg = (
             "The {method} method is not supported. Wallpaper application canceled."
@@ -492,9 +508,7 @@ class WallpaperSelector(BaseDiWidget, Box):
                     except Exception:
                         continue
             if processed:
-                model = self.viewport.get_model()
-                for pixbuf, name in processed:
-                    model.append([pixbuf, name])
+                self.arrange_viewport(self.search_entry.get_text())
             self.thumbnail_queue = []
 
     def _get_cache_path(self, full_path: str) -> str:
@@ -548,6 +562,47 @@ class WallpaperSelector(BaseDiWidget, Box):
         return file_name.lower().endswith(
             (".png", ".jpg", ".jpeg", ".bmp", ".gif", ".webp")
         )
+
+    def _create_random_thumbnail(self) -> GdkPixbuf.Pixbuf:
+        temp_path = os.path.join(self.CACHE_DIR, "__random__.png")
+        if os.path.exists(temp_path):
+            return GdkPixbuf.Pixbuf.new_from_file(temp_path)
+
+        size = 96
+        surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, size, size)
+        cr = cairo.Context(surface)
+
+        # Transparent background
+        cr.set_source_rgba(0, 0, 0, 0)
+        cr.paint()
+
+        # Rounded rectangle background
+        radius = 12
+        x, y, w, h = 0, 0, size, size
+        cr.new_sub_path()
+        cr.arc(x + w - radius, y + radius, radius, -1.57079632679, 0)
+        cr.arc(x + w - radius, y + h - radius, radius, 0, 1.57079632679)
+        cr.arc(x + radius, y + h - radius, radius, 1.57079632679, 3.14159265359)
+        cr.arc(x + radius, y + radius, radius, 3.14159265359, 4.71238898038)
+        cr.close_path()
+        cr.set_source_rgba(1, 1, 1, 0.12)
+        cr.fill()
+
+        # Center icon using Nerd Font
+        layout = PangoCairo.create_layout(cr)
+        layout.set_text("", -1)
+        desc = Pango.FontDescription("JetBrainsMono Nerd Font 32")
+        layout.set_font_description(desc)
+
+        ink_rect, _ = layout.get_pixel_extents()
+        cr.set_source_rgba(1, 1, 1, 0.95)
+        x_pos = (size / 2) - (ink_rect.x + ink_rect.width / 2)
+        y_pos = (size / 2) - (ink_rect.y + ink_rect.height / 2)
+        cr.move_to(x_pos, y_pos)
+        PangoCairo.show_layout(cr, layout)
+
+        surface.write_to_png(temp_path)
+        return GdkPixbuf.Pixbuf.new_from_file(temp_path)
 
     def on_search_entry_focus_out(self, widget, _):
         if self.get_mapped():

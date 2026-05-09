@@ -207,7 +207,8 @@ class Compact(BaseDiWidget, CenterBox):
             return win_class.lower()
 
         if matched[0] == "^$" or win_class == "undefined":
-            base = f"{os.getlogin()}@{os.uname().nodename}"
+            # base = f"{os.getlogin()}@{os.uname().nodename}"
+            base = "Thinkpad x1"
             return base
 
         # Only text here; visual icon is handled via self.window_icon

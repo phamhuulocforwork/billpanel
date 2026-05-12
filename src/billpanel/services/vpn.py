@@ -21,6 +21,12 @@ try:
     import keyring
 
     KEYRING_AVAILABLE = True
+    # Log which keyring backend is being used
+    try:
+        backend = keyring.get_keyring()
+        logger.info(f"Keyring backend initialized: {backend}")
+    except Exception as e:
+        logger.warning(f"Could not determine keyring backend: {e}")
 except ImportError:
     KEYRING_AVAILABLE = False
     logger.warning("keyring not available, credentials will not be stored securely")
@@ -188,6 +194,55 @@ class VPNService:
 
         except Exception as e:
             logger.error(f"Failed to save VPN profiles: {e}")
+
+    def test_keyring(self, profile_name: str = "test-keyring") -> bool:
+        """
+        Test if keyring is working by saving and retrieving test credentials.
+        
+        Args:
+            profile_name: Name to use for test credentials
+            
+        Returns:
+            True if keyring test passed, False otherwise
+        """
+        if not KEYRING_AVAILABLE:
+            logger.warning("Keyring not available for testing")
+            return False
+            
+        try:
+            # Test save
+            test_user = "test_user"
+            test_pass = "test_password"
+            save_result = self.save_credentials(profile_name, test_user, test_pass)
+            
+            if not save_result:
+                logger.error("Keyring test failed: could not save test credentials")
+                return False
+                
+            # Test retrieve
+            retrieved = self.get_credentials(profile_name)
+            if not retrieved or retrieved[0] != test_user or retrieved[1] != test_pass:
+                logger.error("Keyring test failed: retrieved credentials don't match")
+                # Clean up test credentials
+                self.clear_credentials(profile_name)
+                return False
+                
+            # Clean up
+            clear_result = self.clear_credentials(profile_name)
+            if not clear_result:
+                logger.warning("Keyring test: could not clear test credentials")
+                
+            logger.info("Keyring test passed: save and retrieve successful")
+            return True
+            
+        except Exception as e:
+            logger.error(f"Keyring test failed with exception: {e}")
+            # Try to clean up
+            try:
+                self.clear_credentials(profile_name)
+            except:
+                pass
+            return False
 
     def _check_existing_connections(self) -> None:
         # Check for running OpenVPN processes
@@ -429,28 +484,34 @@ class VPNService:
             # Store username and password as JSON
             credentials = json.dumps({"username": username, "password": password})
             keyring.set_password(self.KEYRING_SERVICE, profile_name, credentials)
+            logger.debug(f"Saved credentials for profile '{profile_name}' to keyring")
 
             # Update profile
             if profile_name in self._profiles:
                 self._profiles[profile_name].remember_credentials = True
                 self._save_profiles()
+                logger.debug(f"Updated profile '{profile_name}' remember_credentials flag to True")
 
             return True
         except Exception as e:
-            logger.error(f"Failed to save credentials: {e}")
+            logger.error(f"Failed to save credentials for profile '{profile_name}': {e}")
             return False
 
     def get_credentials(self, profile_name: str) -> tuple[str, str] | None:
         if not KEYRING_AVAILABLE:
+            logger.debug(f"Keyring not available, returning None for profile '{profile_name}'")
             return None
 
         try:
             credentials_json = keyring.get_password(self.KEYRING_SERVICE, profile_name)
             if credentials_json:
                 credentials = json.loads(credentials_json)
+                logger.debug(f"Retrieved credentials for profile '{profile_name}' from keyring")
                 return credentials.get("username", ""), credentials.get("password", "")
+            else:
+                logger.debug(f"No credentials found in keyring for profile '{profile_name}'")
         except Exception as e:
-            logger.error(f"Failed to get credentials: {e}")
+            logger.error(f"Failed to get credentials for profile '{profile_name}': {e}")
 
         return None
 

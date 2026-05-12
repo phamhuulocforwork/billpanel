@@ -33,7 +33,7 @@
 
     &:hover {
       background-color: color.scale(theme.$background-element, $lightness: 10%);
-      border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      border-color: color.scale(theme.$background-element, $alpha: -70%);
     }
   }
 
@@ -70,7 +70,7 @@
   }
 
   #vpn-empty-import-btn {
-    background-color: theme.$accent-color;
+    background-color: theme.$background-element;
     color: theme.$text-on-accent;
     border-radius: 12px;
     padding: 12px 24px;
@@ -79,8 +79,8 @@
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: color.scale(theme.$accent-color, $lightness: 10%);
-      border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      background-color: color.scale(theme.$background-element, $lightness: 10%);
+      border-color: color.scale(theme.$background-element, $alpha: -70%);
     }
   }
 
@@ -93,12 +93,12 @@
 
     &:hover {
       background-color: color.scale(theme.$background-element, $lightness: 10%);
-      border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      border-color: color.scale(theme.$background-element, $alpha: -70%);
     }
   }
 
   #vpn-import-path {
-    color: theme.$accent-color;
+    color: theme.$background-element;
     font-size: 11px;
     font-family: monospace;
     padding: 8px 12px;
@@ -158,7 +158,7 @@
 
     &:hover {
       background-color: color.scale(theme.$background-element, $lightness: 10%);
-      border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      border-color: color.scale(theme.$background-element, $alpha: -70%);
     }
   }
 
@@ -201,23 +201,23 @@
 
       &:hover {
         background-color: color.scale(theme.$background-element, $lightness: 10%);
-        border-color: color.scale(theme.$accent-color, $alpha: -70%);
+        border-color: color.scale(theme.$background-element, $alpha: -70%);
       }
     }
 
-    &.disconnect {
-      background-color: theme.$accent-success;
-      color: theme.$text-on-accent;
+     &.disconnect {
+       background-color: theme.$accent-success;
+       color: theme.$text-on-accent;
 
-      label {
-        color: theme.$text-on-accent;
-      }
+       label {
+         color: theme.$text-on-accent;
+       }
 
-      &:hover {
-        background-color: color.scale(theme.$accent-error, $lightness: -10%);
-        border-color: color.scale(theme.$accent-error, $alpha: -70%);
-      }
-    }
+       &:hover {
+         background-color: color.scale(theme.$accent-success, $lightness: -10%);
+         border-color: color.scale(theme.$accent-success, $alpha: -70%);
+       }
+     }
 
     &.loading {
       background-color: theme.$accent-warning;
@@ -246,12 +246,12 @@
     transition: border-color 0.2s ease;
 
     &:focus {
-      border-color: theme.$accent-color;
+      border-color: theme.$background-element;
     }
   }
 
   #vpn-confirm-btn {
-    background-color: theme.$accent-color;
+    background-color: theme.$background-element;
     color: theme.$text-on-accent;
     font-weight: bold;
     border-radius: 10px;
@@ -259,8 +259,8 @@
     transition: all 0.2s ease;
 
     &:hover {
-      background-color: color.scale(theme.$accent-color, $lightness: 10%);
-      border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      background-color: color.scale(theme.$background-element, $lightness: 10%);
+      border-color: color.scale(theme.$background-element, $alpha: -70%);
     }
   }
 
@@ -290,14 +290,14 @@
     border: 1px solid transparent;
 
     &.active {
-      border-color: theme.$accent-color;
-      background-color: color.scale(theme.$accent-color, $alpha: -80%);
+      border-color: theme.$background-element;
+      background-color: color.scale(theme.$background-element, $alpha: -80%);
       color: theme.$text-color;
     }
 
     &:hover:not(.active) {
       background-color: color.scale(theme.$background-element, $lightness: 10%);
-      border-color: color.scale(theme.$accent-color, $alpha: -70%);
+      border-color: color.scale(theme.$background-element, $alpha: -70%);
     }
   }
 
@@ -311,7 +311,7 @@
     border: 1px solid transparent;
 
     &:focus {
-      border-color: theme.$accent-color;
+      border-color: theme.$background-element;
     }
   }
 
